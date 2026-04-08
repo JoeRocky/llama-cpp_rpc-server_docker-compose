@@ -1,0 +1,9 @@
+services:
+  llama-cpp-rpc:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: llama-cpp-rpc
+    restart: unless-stopped
+    ports:
+      - "50052:50052"
