@@ -1,0 +1,20 @@
+services:
+  llama-cpp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: llama-cpp-server
+    restart: unless-stopped
+    volumes:
+      - /mnt/fastdata/homelab/ai/models:/models
+    ports:
+      - "8080:8080"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    entrypoint: ["/app/llama-server"]
+    command: ["-m", "/models/your-large-model.gguf", "--port", "8080", "--host", "0.0.0.0", "--ngl", "99", "--rpc", "192.168.178.20:50052,192.168.178.21:50052"]
