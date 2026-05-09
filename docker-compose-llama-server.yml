@@ -2,19 +2,20 @@ services:
   llama-cpp-server:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-llama
     container_name: llama-cpp-server
     restart: unless-stopped
     volumes:
       - /mnt/fastdata/homelab/ai/models:/models
     ports:
-      - "8080:8080"
+      - "12080:12080"
     deploy:
       resources:
         reservations:
           devices:
-            - driver: nvidia
-              count: all
+            - driver: cdi
+              device_ids:
+                - nvidia.com/gpu=all
               capabilities: [gpu]
     entrypoint: ["/app/llama-server"]
-    command: ["-m", "/models/your-large-model.gguf", "--port", "8080", "--host", "0.0.0.0", "--ngl", "99", "--rpc", "192.168.178.20:50052,192.168.178.21:50052"]
+    command: ["-m", "/models/Qwen3.6-27B-Q4_K_M.gguf", "--no-mmap", "--n-gpu-layers", "999", "--cache-type-k", "turbo4", "--cache-type-v", "turbo3", "--ctx-size", " 262144", "--port", "12080", "--host", "0.0.0.0", "--rpc", "192.168.178.22:50052"]
