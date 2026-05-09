@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y \
     build-essential cmake git libcurl4-openssl-dev
 
 WORKDIR /build
-RUN git clone https://github.com/ggml-org/llama.cpp.git .
+RUN git clone https://github.com/TheTom/llama-cpp-turboquant.git .
 
 # For Cuda support add: -DGGML_CUDA=ON
 RUN cmake -B build -DGGML_RPC=ON -DCMAKE_BUILD_TYPE=Release
